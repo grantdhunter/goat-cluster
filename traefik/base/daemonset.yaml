@@ -49,7 +49,7 @@ spec:
               hostPort: 448
             - name: admin
               containerPort: 8080
-          envs:
+          env:
             - name: ACME_EMAIL
               valueFrom:
                 configMapKeyRef:
