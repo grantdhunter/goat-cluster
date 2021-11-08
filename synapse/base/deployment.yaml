@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      name: synapse
+      app: synapse
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: synapse
+        app: synapse
+    spec:
+      initContainers:
+        - image: alpine
+          name: fix-permissions
+          command: ['/bin/chown', '-R', '991:991', '/media_store']
+          volumeMounts:
+          - mountPath: /media_store
+            name: media-store
+      containers:
+      - image: matrixdotorg/synapse:v1.45.1
+        imagePullPolicy: Always
+        name: synapse
+        ports:
+        - containerPort: 8008
+          name: api
+          protocol: TCP
+        - containerPort: 8448
+          name: federation
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data
+          name: synapse
+        - mountPath: /app_services
+          name: app-services
+        - mountPath: /media_store
+          name: media-store
+          subPath: media_store
+        - mountPath: /logs
+          name: logs
+      restartPolicy: Always
+      volumes:
+      - name: synapse
+        configMap:
+          name: synapse
+      - name: app-services
+        configMap:
+          name: app-services
+      - name: media-store
+        persistentVolumeClaim:
+          claimName: media-store
+      - name: logs
+        emptyDir: {}

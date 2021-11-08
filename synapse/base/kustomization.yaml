@@ -1,0 +1,15 @@
+resources:
+  - pvc.yaml
+  - service.yaml
+  - deployment.yaml
+
+
+configMapGenerator:
+  - name: synapse
+    files:
+      - goatchat.ca.log.config=goatchat.ca.log.config.txt
+      - goatchat.ca.signing.key=goatchat.ca.signing.key.txt
+      - homeserver.yaml=homeserver.yaml.txt
+  - name: app-services
+    files:
+      - mautrix-hangouts-registration.yaml=mautrix-hangouts-registration.yaml.txt
