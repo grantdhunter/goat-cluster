@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+spec:
+  replicas: 1
+  serviceName: mariadb
+  template:
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-pwd
+              key: password
+        image: mariadb:10.5.10
+        name: mariadb
+        ports:
+        - containerPort: 3306
+          name: 3306tcp02
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadb-data
+  volumeClaimTemplates:
+    - metadata:
+        name: mariadb-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 5Gi

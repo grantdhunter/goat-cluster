@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ghost
+  namespace: default
+spec:
+  entryPoints:
+    - synapse-secure
+  routes:
+  - match: Host(`ghost.goatchat.ca`)
+    kind: Rule
+    services:
+    - name: ghost
+      namespace: ghost
+      port: 8080
+  tls:
+    certResolver: default

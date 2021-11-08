@@ -1,0 +1,70 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirectscheme
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: synapse-api
+  namespace: default
+spec:
+  entryPoints:
+    - synapse-api
+  routes:
+  - match: Host(`goatchat.ca`)
+    kind: Rule
+    middlewares:
+    - name: redirectscheme
+      namespace: default
+    services:
+    - name: synapse
+      port: 8008
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: synapse-secure
+  namespace: default
+spec:
+  entryPoints:
+    - synapse-secure
+  routes:
+  - match: Host(`goatchat.ca`) && PathPrefix(`/mpr`)
+    kind: Rule
+    services:
+    - name: matrix-private-registration
+      port: 8000
+  - match: Host(`goatchat.ca`) && PathPrefix(`/hangouts`)
+    kind: Rule
+    services:
+    - name: mautrix-hangouts
+      port: 29320
+  - match: Host(`goatchat.ca`)
+    kind: Rule
+    services:
+    - name: synapse
+      port: 8008
+  tls:
+    certResolver: default
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: synapse-fed
+  namespace: default
+spec:
+  entryPoints:
+    - synapse-federation
+  routes:
+  - match: Host(`goatchat.ca`)
+    kind: Rule
+    services:
+    - name: synapse
+      port: 8448
+  tls:
+    certResolver: default
