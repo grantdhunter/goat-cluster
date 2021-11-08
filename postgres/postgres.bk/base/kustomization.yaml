@@ -1,0 +1,10 @@
+resources:
+  - pvc.yaml
+  - service.yaml
+  - deployment.yaml
+
+secretGenerator:
+  - name: postgres-pwd
+    type: Opaque
+    envs:
+      - secrets.txt
