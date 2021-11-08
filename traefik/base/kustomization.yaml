@@ -6,8 +6,13 @@ resources:
   - rbac.yaml
   - daemonset.yaml
   - router.yaml
-
+  - pvc.yaml
 configMapGenerator:
   - name: acme-email
     envs:
       - env.txt
+
+secretGenerator:
+  - name: secrets
+    envs:
+      - secret.txt

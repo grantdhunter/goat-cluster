@@ -34,9 +34,13 @@ spec:
             - --entrypoints.synapse-federation.address=:8448
             - --providers.kubernetescrd
             - --providers.kubernetescrd.allowCrossNamespace=true
-            - --certificatesresolvers.default.acme.tlschallenge
+            - --certificatesresolvers.default.acme.dnschallenge.provider=digitalocean
+            - --certificatesresolvers.default.acme.dnschallenge.delaybeforecheck=0
+            - --certificatesresolvers.default.acme.caserver=https://acme.zerossl.com/v2/DV90
             - --certificatesresolvers.default.acme.email=$(ACME_EMAIL)
             - --certificatesresolvers.default.acme.storage=acme.json
+            - --certificatesresolvers.default.acme.eab.kid=$(EAB_KID)
+            - --certificatesresolvers.default.acme.eab.hmacencoded=$(EAB_KEY)
           ports:
             - name: synapse-api
               containerPort: 8008
@@ -55,9 +59,31 @@ spec:
                 configMapKeyRef:
                   name: acme-email
                   key: email
+            - name: DO_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: digitalocean_token
+            - name: EAB_KID
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: eab_kid
+            - name: EAB_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: eab_key
+          volumeMounts:
+            - mountPath: /etc/traefik/acme
+              name: acme
           securityContext:
             capabilities:
               drop:
                 - ALL
               add:
                 - NET_BIND_SERVICE
+      volumes:
+        - name: acme
+          persistentVolumeClaim:
+            claimName: acme-store
