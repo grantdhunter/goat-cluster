@@ -52,10 +52,10 @@ spec:
         resources:
           limits:
             cpu: "500m"
-            memory: '250Mi'
+            memory: '150Mi'
           requests:
             cpu: "10m"
-            memory: '100Mi'
+            memory: '90Mi'
       restartPolicy: Always
       volumes:
       - name: synapse

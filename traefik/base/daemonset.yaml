@@ -77,7 +77,7 @@ spec:
               name: acme
           resources:
             limits:
-              cpu: "250m"
+              cpu: "100m"
             requests:
               cpu: "10m"
           securityContext:
