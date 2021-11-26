@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: photoprism
+  namespace: photoprism
+spec:
+  selector:
+    matchLabels:
+      app: photoprism
+  serviceName: photoprism
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: photoprism
+    spec:
+      containers:
+      - name: photoprism
+        image: photoprism/photoprism:latest
+        envFrom:
+        - secretRef:
+            name: photoprism-secrets
+            optional: false
+        - configMapRef:
+            name: photoprism
+        ports:
+        - containerPort: 2342
+          name: http
+        volumeMounts:
+        - mountPath: /assets/photos/originals
+          name: originals
+          subPath: media/photos
+        - mountPath: /assets/cache
+          name: photoprism
+          subPath: cache
+        - mountPath: /assets/photos/import
+          name: photoprism
+          subPath: import
+        - mountPath: /assets/photos/export
+          name: photoprism
+          subPath: export
+        readinessProbe:
+          httpGet:
+            path: /api/v1/status
+            port: http
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "500Mi"
+          requests:
+            cpu: "10m"
+            memory: "250Mi"
+  volumeClaimTemplates:
+    - metadata:
+        name: originals
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 5Gi
+    - metadata:
+        name: photoprism
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 5Gi

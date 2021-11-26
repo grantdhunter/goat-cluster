@@ -6,11 +6,11 @@ spec:
   entryPoints:
     - synapse-secure
   routes:
-  - match: Host(`ghost.goatchat.ca`)
+  - match: Host(`53ll.goatchat.ca`)
     kind: Rule
     services:
-    - name: ghost
+    - name: ghost-53ll
       namespace: ghost
       port: 8080
   tls:
-    certResolver: letsencrypt
+    certResolver: default

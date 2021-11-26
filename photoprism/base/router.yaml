@@ -1,16 +1,17 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ghost
+  name: photoprism
+  namespace: photoprism
 spec:
   entryPoints:
     - synapse-secure
   routes:
-  - match: Host(`ghost.goatchat.ca`)
+  - match: Host(`photos.goatchat.ca`)
     kind: Rule
     services:
-    - name: ghost
-      namespace: ghost
-      port: 8080
+    - name: photoprism
+      namespace: photoprism
+      port: 80
   tls:
     certResolver: letsencrypt

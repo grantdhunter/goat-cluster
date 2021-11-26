@@ -29,8 +29,8 @@ spec:
           - mountPath: /media_store
             name: media-store
       containers:
-      - image: matrixdotorg/synapse:v1.45.1
-        imagePullPolicy: Always
+      - image: matrixdotorg/synapse:v1.47.1
+        imagePullPolicy: IfNotPresent
         name: synapse
         ports:
         - containerPort: 8008
@@ -49,6 +49,13 @@ spec:
           subPath: media_store
         - mountPath: /logs
           name: logs
+        resources:
+          limits:
+            cpu: "500m"
+            memory: '250Mi'
+          requests:
+            cpu: "10m"
+            memory: '100Mi'
       restartPolicy: Always
       volumes:
       - name: synapse

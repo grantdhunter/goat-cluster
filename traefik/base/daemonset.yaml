@@ -1,17 +1,9 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: traefik-ingress-controller
-
----
 kind: DaemonSet
 apiVersion: apps/v1
-
 metadata:
   name: traefik
   labels:
     app: traefik
-
 spec:
   selector:
     matchLabels:
@@ -34,6 +26,7 @@ spec:
             - --entrypoints.synapse-federation.address=:8448
             - --providers.kubernetescrd
             - --providers.kubernetescrd.allowCrossNamespace=true
+            # zero ssl resolver
             - --certificatesresolvers.default.acme.dnschallenge.provider=digitalocean
             - --certificatesresolvers.default.acme.dnschallenge.delaybeforecheck=0
             - --certificatesresolvers.default.acme.caserver=https://acme.zerossl.com/v2/DV90
@@ -41,6 +34,11 @@ spec:
             - --certificatesresolvers.default.acme.storage=/etc/traefik/acme/acme.json
             - --certificatesresolvers.default.acme.eab.kid=$(EAB_KID)
             - --certificatesresolvers.default.acme.eab.hmacencoded=$(EAB_KEY)
+            # let's encrypt resolver
+            - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=digitalocean
+            - --certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0
+            - --certificatesresolvers.letsencrypt.acme.email=$(ACME_EMAIL)
+            - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json
           ports:
             - name: synapse-api
               containerPort: 8008
@@ -77,6 +75,11 @@ spec:
           volumeMounts:
             - mountPath: /etc/traefik/acme
               name: acme
+          resources:
+            limits:
+              cpu: "250m"
+            requests:
+              cpu: "10m"
           securityContext:
             capabilities:
               drop:

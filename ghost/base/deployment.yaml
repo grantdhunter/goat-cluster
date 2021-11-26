@@ -18,24 +18,15 @@ spec:
         - image: ghost:4.21
           imagePullPolicy: Always
           name: ghost
+          envFrom:
+            - configMapRef:
+                name: ghost
           env:
-            - name: url
-              value: https://ghost.goatchat.ca
-            - name: server__port
-              value: "8080"
-            - name: database__client
-              value: mysql
-            - name: database__connection__host
-              value: mariadb.infrastructure.svc.cluster.local
-            - name: database__connection__user
-              value: ghost
             - name: database__connection__password
               valueFrom:
                 secretKeyRef:
                   name: ghost-db-pwd
                   key: password
-            - name: database__connection__database
-              value: ghost
           ports:
             - containerPort: 8080
               name: http
