@@ -1,0 +1,10 @@
+namespace: default
+resources:
+  - service.yaml
+  - deployment.yaml
+  - route.yaml
+
+configMapGenerator:
+  - name: matrix-registration
+    files:
+      - config.yaml=config.yaml.txt

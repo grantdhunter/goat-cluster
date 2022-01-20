@@ -16,7 +16,7 @@ spec:
   entryPoints:
     - synapse-api
   routes:
-  - match: Host(`goatchat.ca`)
+  - match: Host(`*`)
     kind: Rule
     middlewares:
     - name: redirectscheme
@@ -34,23 +34,13 @@ spec:
   entryPoints:
     - synapse-secure
   routes:
-  - match: Host(`goatchat.ca`) && PathPrefix(`/mpr`)
-    kind: Rule
-    services:
-    - name: matrix-private-registration
-      port: 8000
-  - match: Host(`goatchat.ca`) && PathPrefix(`/hangouts`)
-    kind: Rule
-    services:
-    - name: mautrix-hangouts
-      port: 29320
   - match: Host(`goatchat.ca`)
     kind: Rule
     services:
     - name: synapse
       port: 8008
   tls:
-    certResolver: default
+    certResolver: letsencrypt
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -67,4 +57,4 @@ spec:
     - name: synapse
       port: 8448
   tls:
-    certResolver: default
+    certResolver: letsencrypt

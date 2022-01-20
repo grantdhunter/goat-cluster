@@ -15,8 +15,8 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - image: ghost:4.21
-          imagePullPolicy: Always
+        - image: ghost:4.32.3
+          imagePullPolicy: IfNotPresent
           name: ghost
           envFrom:
             - configMapRef:
@@ -26,7 +26,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ghost-db-pwd
-                  key: password
+                  key: database__connection__password
+            - name: mail__options__auth__user
+              valueFrom:
+                secretKeyRef:
+                  name: ghost-db-pwd
+                  key: mail__options__auth__user
+            - name: mail__options__auth__pass
+              valueFrom:
+                secretKeyRef:
+                  name: ghost-db-pwd
+                  key: mail__options__auth__pass
           ports:
             - containerPort: 8080
               name: http

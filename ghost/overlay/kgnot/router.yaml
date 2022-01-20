@@ -6,10 +6,10 @@ spec:
   entryPoints:
     - synapse-secure
   routes:
-  - match: Host(`53ll.ca`)
+  - match: Host(`kgnot.ca`)
     kind: Rule
     services:
-    - name: ghost-53ll
+    - name: ghost-kgnot
       namespace: ghost
       port: 8080
   tls:

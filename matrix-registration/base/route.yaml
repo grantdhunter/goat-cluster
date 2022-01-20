@@ -1,16 +1,16 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ghost
+  name: matrix-registration
 spec:
   entryPoints:
     - synapse-secure
   routes:
-  - match: Host(`53ll.ca`)
+  - match: Host(`goatchat.ca`) && PathPrefix(`/gate/`)
     kind: Rule
     services:
-    - name: ghost-53ll
-      namespace: ghost
-      port: 8080
+    - name: matrix-registration
+      namespace: default
+      port: 5000
   tls:
     certResolver: letsencrypt
