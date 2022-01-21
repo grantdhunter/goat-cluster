@@ -1,31 +1,4 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: redirectscheme
-spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: web
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`*`)
-    kind: Rule
-    middlewares:
-    - name: redirectscheme
-      namespace: default
-    services:
-    - name: synapse
-      port: 8008
----
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: websecure

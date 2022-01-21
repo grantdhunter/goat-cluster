@@ -8,7 +8,6 @@ resources:
   - serviceaccount.yaml
   - rbac.yaml
   - daemonset.yaml
-  - router.yaml
   - pvc.yaml
   - service.yaml
 configMapGenerator:

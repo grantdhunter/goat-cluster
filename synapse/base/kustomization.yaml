@@ -3,7 +3,7 @@ resources:
   - pvc.yaml
   - service.yaml
   - deployment.yaml
-
+  - route.yaml
 
 configMapGenerator:
   - name: synapse
