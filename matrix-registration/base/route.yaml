@@ -4,7 +4,7 @@ metadata:
   name: matrix-registration
 spec:
   entryPoints:
-    - synapse-secure
+    - websecure
   routes:
   - match: Host(`goatchat.ca`) && PathPrefix(`/gate/`)
     kind: Rule

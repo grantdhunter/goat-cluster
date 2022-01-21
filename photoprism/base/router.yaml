@@ -5,7 +5,7 @@ metadata:
   namespace: photoprism
 spec:
   entryPoints:
-    - synapse-secure
+    - websecure
   routes:
   - match: Host(`photos.goatchat.ca`)
     kind: Rule

@@ -22,12 +22,12 @@ spec:
             - --log.level=DEBUG
             - --accesslog
 
-            - --entrypoints.synapse-api.address=:80
-            - --entrypoints.synapse-api.http.redirections.entryPoint.to=synapse-secure
-            - --entrypoints.synapse-api.http.redirections.entryPoint.scheme=https
-            - --entrypoints.synapse-api.http.redirections.entryPoint.permanent=true
+            - --entrypoints.web.address=:80
+            - --entrypoints.web.http.redirections.entryPoint.to=websecure
+            - --entrypoints.web.http.redirections.entryPoint.scheme=https
+            - --entrypoints.web.http.redirections.entryPoint.permanent=true
 
-            - --entrypoints.synapse-secure.address=:443
+            - --entrypoints.websecure.address=:443
 
             - --entrypoints.synapse-federation.address=:448
 
@@ -47,10 +47,10 @@ spec:
             - --certificatesresolvers.letsencrypt.acme.email=$(ACME_EMAIL)
             - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/letsencrypt.json
           ports:
-            - name: synapse-api
+            - name: web
               containerPort: 80
               hostPort: 80
-            - name: synapse-secure
+            - name: websecure
               containerPort: 443
               hostPort: 443
             - name: synapse-fed
