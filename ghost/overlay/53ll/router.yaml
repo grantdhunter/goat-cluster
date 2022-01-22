@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`53ll.ca`)
+  - match: Host(`53ll.ca`) || Host(`www.53ll.ca`)
     kind: Rule
     services:
     - name: ghost-53ll
