@@ -13,6 +13,15 @@ spec:
       labels:
         app: traefik
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                      - native
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik

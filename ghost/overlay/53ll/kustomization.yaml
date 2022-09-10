@@ -11,9 +11,17 @@ resources:
 
 patches:
   - path: router.yaml
+  - target:
+      version: v1beta1
+      kind: VolumeSnapshot
+      name: snapshot-ghost-store
+    patch: |-
+      - op: replace
+        path: /spec/source/persistentVolumeClaimName
+        value: ghost-store-53ll
 
 secretGenerator:
-  - name: ghost-db-pwd
+  - name: ghost-secrets
     type: Opaque
     behavior: replace
     envs:

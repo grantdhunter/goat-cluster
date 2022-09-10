@@ -24,6 +24,15 @@ spec:
         name: postgres
         app: postgres
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                      - native
       containers:
       - env:
         - name: POSTGRES_PASSWORD

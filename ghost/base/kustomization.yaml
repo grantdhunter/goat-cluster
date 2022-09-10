@@ -8,14 +8,14 @@ commonLabels:
   app: ghost
 
 resources:
-  - namespace.yaml
   - service.yaml
   - deployment.yaml
   - pvc.yaml
   - router.yaml
+  #- snapshot.yaml
 
 secretGenerator:
-  - name: ghost-db-pwd
+  - name: ghost-secrets
     type: Opaque
     envs:
       - secrets.txt

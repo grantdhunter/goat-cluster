@@ -7,6 +7,15 @@ spec:
   serviceName: mariadb
   template:
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                      - native
       terminationGracePeriodSeconds: 10
       containers:
       - env:

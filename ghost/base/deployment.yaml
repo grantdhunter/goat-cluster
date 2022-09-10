@@ -13,30 +13,25 @@ spec:
     type: RollingUpdate
   template:
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                      - native
       restartPolicy: Always
       containers:
-        - image: ghost:4.32.3
+        - image: ghost:5.13.2
           imagePullPolicy: IfNotPresent
           name: ghost
           envFrom:
             - configMapRef:
                 name: ghost
-          env:
-            - name: database__connection__password
-              valueFrom:
-                secretKeyRef:
-                  name: ghost-db-pwd
-                  key: database__connection__password
-            - name: mail__options__auth__user
-              valueFrom:
-                secretKeyRef:
-                  name: ghost-db-pwd
-                  key: mail__options__auth__user
-            - name: mail__options__auth__pass
-              valueFrom:
-                secretKeyRef:
-                  name: ghost-db-pwd
-                  key: mail__options__auth__pass
+            - secretRef:
+                name: ghost-secrets
           ports:
             - containerPort: 8080
               name: http
@@ -44,6 +39,13 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/ghost/content
               name: ghost
+          resources:
+            limits:
+              cpu: "500m"
+              memory: '500Mi'
+            requests:
+              cpu: "10m"
+              memory: '100Mi'
       volumes:
         - name: ghost
           persistentVolumeClaim:
