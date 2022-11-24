@@ -13,18 +13,9 @@ spec:
     type: RollingUpdate
   template:
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: storage
-                    operator: In
-                    values:
-                      - native
       restartPolicy: Always
       containers:
-        - image: ghost:5.13.2
+        - image: ghost:5.22.9
           imagePullPolicy: IfNotPresent
           name: ghost
           envFrom:
@@ -41,7 +32,7 @@ spec:
               name: ghost
           resources:
             limits:
-              cpu: "500m"
+              cpu: "300m"
               memory: '500Mi'
             requests:
               cpu: "10m"

@@ -21,15 +21,6 @@ spec:
         name: synapse
         app: synapse
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: storage
-                    operator: In
-                    values:
-                      - native
       initContainers:
         - image: alpine
           name: fix-permissions
@@ -38,7 +29,7 @@ spec:
           - mountPath: /media_store
             name: media-store
       containers:
-      - image: matrixdotorg/synapse:v1.66.0
+      - image: matrixdotorg/synapse:v1.72.0
         imagePullPolicy: IfNotPresent
         name: synapse
         ports:

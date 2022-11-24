@@ -9,6 +9,9 @@ namesuffix: -kgnot
 resources:
   - ../../base
 
+patchesStrategicMerge:
+  - pvc.yaml
+
 patches:
   - path: router.yaml
   - target:

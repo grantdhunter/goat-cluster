@@ -7,15 +7,6 @@ spec:
   serviceName: mariadb
   template:
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: storage
-                    operator: In
-                    values:
-                      - native
       terminationGracePeriodSeconds: 10
       containers:
       - env:
@@ -24,7 +15,7 @@ spec:
             secretKeyRef:
               name: mariadb-pwd
               key: password
-        image: mariadb:10.5.10
+        image: mariadb:10.9.3
         name: mariadb
         ports:
         - containerPort: 3306

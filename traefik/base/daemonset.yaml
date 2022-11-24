@@ -13,19 +13,10 @@ spec:
       labels:
         app: traefik
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: storage
-                    operator: In
-                    values:
-                      - native
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik
-          image: traefik:v2.5
+          image: traefik:v2.9
           args:
             - --api.insecure
             - --log.level=DEBUG
@@ -104,5 +95,4 @@ spec:
                 - NET_BIND_SERVICE
       volumes:
         - name: acme
-          persistentVolumeClaim:
-            claimName: acme-store
+          emptyDir: {}

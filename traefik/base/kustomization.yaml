@@ -8,7 +8,6 @@ resources:
   - serviceaccount.yaml
   - rbac.yaml
   - daemonset.yaml
-  - pvc.yaml
   - service.yaml
 configMapGenerator:
   - name: acme-email

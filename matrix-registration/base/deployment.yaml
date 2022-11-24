@@ -39,7 +39,7 @@ spec:
             memory: '150Mi'
           requests:
             cpu: "10m"
-            memory: '90Mi'
+            memory: '40Mi'
       restartPolicy: Always
       volumes:
       - name: matrix-registration
