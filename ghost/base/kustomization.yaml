@@ -12,7 +12,6 @@ resources:
   - deployment.yaml
   - pvc.yaml
   - router.yaml
-  #- snapshot.yaml
 
 secretGenerator:
   - name: ghost-secrets

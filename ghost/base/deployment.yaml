@@ -8,14 +8,14 @@ spec:
   revisionHistoryLimit: 10
   strategy:
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 0
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     spec:
       restartPolicy: Always
       containers:
-        - image: ghost:5.22.9
+        - image: ghost:5.25.5-alpine
           imagePullPolicy: IfNotPresent
           name: ghost
           envFrom:

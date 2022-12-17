@@ -12,8 +12,8 @@ spec:
       app: synapse
   strategy:
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 0
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
@@ -29,7 +29,7 @@ spec:
           - mountPath: /media_store
             name: media-store
       containers:
-      - image: matrixdotorg/synapse:v1.72.0
+      - image: matrixdotorg/synapse:v1.73.0
         imagePullPolicy: IfNotPresent
         name: synapse
         ports:

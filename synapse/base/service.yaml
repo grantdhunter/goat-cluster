@@ -12,3 +12,6 @@ spec:
     - name: federation
       protocol: TCP
       port: 8448
+    - name: metrics
+      protocol: TCP
+      port: 9000
